@@ -1,0 +1,26 @@
+{
+    "name": "axguowen/zerossl-sdk-php",
+    "description": "ZeroSSL SDK for PHP",
+    "keywords": [
+        "zerossl",
+        "sdk",
+        "php"
+    ],      
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "axguowen",
+            "email": "axguowen@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "ext-openssl": "*",
+        "axguowen/http-client": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "axguowen\\": "src"
+        }
+    }
+}
