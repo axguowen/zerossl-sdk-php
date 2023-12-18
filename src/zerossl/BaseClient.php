@@ -110,7 +110,7 @@ abstract class BaseClient
         // 发送请求
         $ret = HttpClient::get(self::BASE_URL . $path);
         if (!$ret->ok()) {
-            return [null, new Error($path, $ret)];
+            return [null, new \Exception($ret->error['type'])];
         }
         $r = ($ret->body === null) ? [] : $ret->json();
         return [$r, null];
