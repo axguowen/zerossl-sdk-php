@@ -82,9 +82,25 @@ abstract class BaseClient
         // 构造授权参数
         $path .= (false === strpos($path, '?') ? '?' : '&') . 'access_key=' . $this->options['access_key'];
         // 发送请求
-        $ret = HttpClient::post(self::BASE_URL . $path, $body);
+        $ret = HttpClient::post(self::BASE_URL . $path, $body, [], 10);
         if (!$ret->ok()) {
-            return [null, new \Exception($ret->error['info'])];
+            // 默认错误信息
+            $message = '请求失败';
+            // 如果是字符串
+            if(is_string($ret->error)){
+                // 错误信息
+                $message = $ret->error;
+                // 如果是超时
+                if(strpos($message, 'timed out') !== false){
+                    $message = '请求超时';
+                }
+            }
+            // 如果是数组且包含info字段
+            elseif(is_array($ret->error) && isset($ret->error['info'])){
+                $message = $ret->error['info'];
+            }
+            // 返回
+            return [null, new \Exception($message)];
         }
         $r = ($ret->body === null) ? [] : $ret->json();
         return [$r, null];
@@ -107,9 +123,25 @@ abstract class BaseClient
             $path .= '&' . http_build_query($query);
         }
         // 发送请求
-        $ret = HttpClient::get(self::BASE_URL . $path);
+        $ret = HttpClient::get(self::BASE_URL . $path, [], 10);
         if (!$ret->ok()) {
-            return [null, new \Exception($ret->error['info'])];
+            // 默认错误信息
+            $message = '请求失败';
+            // 如果是字符串
+            if(is_string($ret->error)){
+                // 错误信息
+                $message = $ret->error;
+                // 如果是超时
+                if(strpos($message, 'timed out') !== false){
+                    $message = '请求超时';
+                }
+            }
+            // 如果是数组且包含info字段
+            elseif(is_array($ret->error) && isset($ret->error['info'])){
+                $message = $ret->error['info'];
+            }
+            // 返回
+            return [null, new \Exception($message)];
         }
         $r = ($ret->body === null) ? [] : $ret->json();
         return [$r, null];
