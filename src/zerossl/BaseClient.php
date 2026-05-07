@@ -82,7 +82,7 @@ abstract class BaseClient
         // 构造授权参数
         $path .= (false === strpos($path, '?') ? '?' : '&') . 'access_key=' . $this->options['access_key'];
         // 发送请求
-        $ret = HttpClient::post(self::BASE_URL . $path, $body, [], 10);
+        $ret = HttpClient::post(self::BASE_URL . $path, $body);
         if (!$ret->ok()) {
             // 默认错误信息
             $message = '请求失败';
@@ -123,7 +123,7 @@ abstract class BaseClient
             $path .= '&' . http_build_query($query);
         }
         // 发送请求
-        $ret = HttpClient::get(self::BASE_URL . $path, [], 10);
+        $ret = HttpClient::get(self::BASE_URL . $path);
         if (!$ret->ok()) {
             // 默认错误信息
             $message = '请求失败';
